@@ -1,6 +1,6 @@
 package input;
 
-public class Filters {
+public final class Filters {
     private Sort sort;
     private Contains contains;
 
@@ -8,7 +8,7 @@ public class Filters {
         return sort;
     }
 
-    public void setSort(Sort sort) {
+    public void setSort(final Sort sort) {
         this.sort = sort;
     }
 
@@ -16,7 +16,7 @@ public class Filters {
         return contains;
     }
 
-    public void setContains(Contains contains) {
+    public void setContains(final Contains contains) {
         this.contains = contains;
     }
 }

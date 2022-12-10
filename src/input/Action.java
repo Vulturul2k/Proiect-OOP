@@ -1,11 +1,11 @@
 package input;
 
-public class Action {
+public final class Action {
     private String type;
     private String page;
     private String feature;
     private String movie;
-    private User credentials;
+    private Credentials credentials;
     private String startsWith;
     private Filters filters;
 
@@ -13,35 +13,11 @@ public class Action {
 
     private int rate;
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public int getRate() {
-        return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
-    }
-
-    public String getMovie() {
-        return movie;
-    }
-
-    public void setMovie(String movie) {
-        this.movie = movie;
-    }
-
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -49,7 +25,7 @@ public class Action {
         return page;
     }
 
-    public void setPage(String page) {
+    public void setPage(final String page) {
         this.page = page;
     }
 
@@ -57,15 +33,23 @@ public class Action {
         return feature;
     }
 
-    public void setFeature(String feature) {
+    public void setFeature(final String feature) {
         this.feature = feature;
     }
 
-    public User getCredentials() {
+    public String getMovie() {
+        return movie;
+    }
+
+    public void setMovie(final String movie) {
+        this.movie = movie;
+    }
+
+    public Credentials getCredentials() {
         return credentials;
     }
 
-    public void setCredentials(User credentials) {
+    public void setCredentials(final Credentials credentials) {
         this.credentials = credentials;
     }
 
@@ -73,7 +57,7 @@ public class Action {
         return startsWith;
     }
 
-    public void setStartsWith(String startsWith) {
+    public void setStartsWith(final String startsWith) {
         this.startsWith = startsWith;
     }
 
@@ -81,7 +65,23 @@ public class Action {
         return filters;
     }
 
-    public void setFilters(Filters filters) {
+    public void setFilters(final Filters filters) {
         this.filters = filters;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(final int count) {
+        this.count = count;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(final int rate) {
+        this.rate = rate;
     }
 }

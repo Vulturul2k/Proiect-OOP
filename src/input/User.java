@@ -2,50 +2,70 @@ package input;
 
 import java.util.ArrayList;
 
-public class User {
-    private String name;
-    private String password;
-    private String accountType;
-    private String country;
-    private int balance;
+public final class User {
 
-    public String getName() {
-        return name;
+    private Credentials credentials;
+
+    private int tokensCount;
+    private int numFreePremiumMovies = 15;
+    private ArrayList<Movie> purchasedMovies;
+    private ArrayList<Movie> watchedMovies;
+    private ArrayList<Movie> likedMovies;
+    private ArrayList<Movie> ratedMovies;
+
+    public Credentials getCredentials() {
+        return credentials;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCredentials(final Credentials credentials) {
+        this.credentials = credentials;
     }
 
-    public String getPassword() {
-        return password;
+    public int getTokensCount() {
+        return tokensCount;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setTokensCount(final int tokensCount) {
+        this.tokensCount = tokensCount;
     }
 
-    public String getAccountType() {
-        return accountType;
+    public int getNumFreePremiumMovies() {
+        return numFreePremiumMovies;
     }
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
+    public void setNumFreePremiumMovies(final int numFreePremiumMovies) {
+        this.numFreePremiumMovies = numFreePremiumMovies;
     }
 
-    public String getCountry() {
-        return country;
+    public ArrayList<Movie> getPurchasedMovies() {
+        return purchasedMovies;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setPurchasedMovies(final ArrayList<Movie> purchasedMovies) {
+        this.purchasedMovies = purchasedMovies;
     }
 
-    public int getBalance() {
-        return balance;
+    public ArrayList<Movie> getWatchedMovies() {
+        return watchedMovies;
     }
 
-    public void setBalance(int balance) {
-        this.balance = balance;
+    public void setWatchedMovies(final ArrayList<Movie> watchedMovies) {
+        this.watchedMovies = watchedMovies;
+    }
+
+    public ArrayList<Movie> getLikedMovies() {
+        return likedMovies;
+    }
+
+    public void setLikedMovies(final ArrayList<Movie> likedMovies) {
+        this.likedMovies = likedMovies;
+    }
+
+    public ArrayList<Movie> getRatedMovies() {
+        return ratedMovies;
+    }
+
+    public void setRatedMovies(final ArrayList<Movie> ratedMovies) {
+        this.ratedMovies = ratedMovies;
     }
 }

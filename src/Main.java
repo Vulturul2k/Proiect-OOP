@@ -13,7 +13,8 @@ public class Main {
         ObjectMapper objectMapper = new ObjectMapper();
         Input inputData = objectMapper.readValue(new File(args[0]), Input.class);
         ArrayNode output = objectMapper.createArrayNode();
-        new Login_register(inputData, output);
+        Login_register log = Login_register.getLog();
+        log.action(inputData, output);
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(args[1]), output);
     }

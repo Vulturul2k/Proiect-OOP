@@ -60,18 +60,6 @@
   "actions": [
     {
       "type": "change page",
-      "page": "login"
-    },
-    {
-      "type": "on page",
-      "feature": "login",
-      "credentials": {
-        "name": "Eduard",
-        "password": "parolamea"
-      }
-    },
-    {
-      "type": "change page",
       "page": "register"
     },
     {
@@ -88,46 +76,13 @@
     },
     {
       "type": "change page",
-      "page": "login"
+      "page": "movies"
     },
     {
       "type": "on page",
-      "page": "login",
-      "feature": "login",
-      "credentials": {
-        "name": "Ramsi",
-        "password": "numiplacevelea"
-      }
-    },
-    {
-      "type": "change page",
-      "page": "logout"
-    },
-    {
-      "type": "change page",
-      "page": "login"
-    },
-    {
-      "type": "on page",
-      "page": "login",
-      "feature": "login",
-      "credentials": {
-        "name": "Eduard",
-        "password": "nicigand"
-      }
-    },
-    {
-      "type": "change page",
-      "page": "login"
-    },
-    {
-      "type": "on page",
-      "page": "login",
-      "feature": "login",
-      "credentials": {
-        "name": "Eduard",
-        "password": "secret"
-      }
+      "page": "movies",
+      "feature": "search",
+      "startsWith": "Iubire din serai"
     }
   ]
 }
