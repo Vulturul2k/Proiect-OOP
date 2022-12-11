@@ -10,8 +10,17 @@ public final class Movie {
     private ArrayList<String> actors;
     private ArrayList<String> countriesBanned;
     private int numLikes;
-    private int rating;
+    private double rating;
     private int numRatings;
+    private double ratingSum;
+
+    public double getRatingSum() {
+        return ratingSum;
+    }
+
+    public void setRatingSum(double ratingSum) {
+        this.ratingSum = ratingSum;
+    }
 
     public int getNumLikes() {
         return numLikes;
@@ -21,11 +30,11 @@ public final class Movie {
         this.numLikes = numLikes;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(final int rating) {
+    public void setRating(final double rating) {
         this.rating = rating;
     }
 

@@ -10,14 +10,6 @@ import input.User;
 import java.util.ArrayList;
 
 public class Info {
-//    private final static Info info = new Info();
-//
-//    public static Info getInfo() {
-//        return info;
-//    }
-//    private Info () {
-//
-//    }
     private static void showMovie(Input inputData, ArrayNode output, Movie movie) {
         ObjectNode jsonNode = output.addObject();
         jsonNode.put("name", movie.getName());
@@ -42,7 +34,7 @@ public class Info {
             }
         }
         jsonNode.put("numLikes", movie.getNumLikes());
-        jsonNode.put("rating", movie.getRating());
+        jsonNode.put("rating",movie.getRating());
         jsonNode.put("numRatings", movie.getNumRatings());
 
     }
@@ -81,27 +73,27 @@ public class Info {
             ArrayNode movieInfo = users.putArray("purchasedMovies");
             if (user.getPurchasedMovies() != null) {
                 for (Movie movie : user.getPurchasedMovies()) {
-                    movieInfo.add(movie.getName());
+                    showMovie(inputData, movieInfo, movie);
                 }
             }
 
             ArrayNode movieInfoWatch = users.putArray("watchedMovies");
             if (user.getWatchedMovies() != null) {
                 for (Movie movie : user.getWatchedMovies()) {
-                    movieInfoWatch.add(movie.getName());
+                    showMovie(inputData, movieInfoWatch, movie);
                 }
             }
 
             ArrayNode movieInfoLike = users.putArray("likedMovies");
             if (user.getLikedMovies() != null) {
                 for (Movie movie : user.getLikedMovies()) {
-                    movieInfoLike.add(movie.getName());
+                    showMovie(inputData, movieInfoLike, movie);
                 }
             }
             ArrayNode movieInfoRate = users.putArray("ratedMovies");
             if (user.getRatedMovies() != null) {
                 for (Movie movie : user.getRatedMovies()) {
-                    movieInfoRate.add(movie.getName());
+                    showMovie(inputData, movieInfoRate, movie);
                 }
             }
         } else {

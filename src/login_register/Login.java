@@ -10,9 +10,6 @@ public class Login {
                 || newPage.equals("register"));
     }
     public User login (String page, Input inputData, Action action) {
-        if(!page.equals("login")) {
-            return null;
-        }
         for (User person: inputData.getUsers()) {
             if (person.getCredentials().getName().equals(action.getCredentials().getName())) {
                 if (person.getCredentials().getPassword()
