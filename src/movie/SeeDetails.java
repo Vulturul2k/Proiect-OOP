@@ -16,10 +16,14 @@ public class SeeDetails {
 //        if (user == null) {
 //            return;
 //        }
-        ArrayList<Movie> movieList = new MoviePage().userMovies(inputData, details.getUser());
+        if (details.getMovieList() == null) {
+            ArrayList<Movie> movieList = new MoviePage().userMovies(inputData, details.getUser());
+            details.setMovieList(movieList);
+        }
         ArrayList<Movie> userMovies = new ArrayList<>();
-        Movie movie = findMovie(movieList, action);
+        Movie movie = findMovie(details.getMovieList(), action);
         if (movie != null) {
+            details.setMovieList(null);
             userMovies.add(movie);
             new Info(inputData, output, details.getUser(), userMovies);
             details.setMovie(movie);
@@ -37,15 +41,23 @@ public class SeeDetails {
     }
     public boolean purchase(Movie movie, User user) {
         boolean ok = false;
-        if (user.getNumFreePremiumMovies() > 0) {
-            ok = true;
-            user.setNumFreePremiumMovies(user.getNumFreePremiumMovies() - 1);
-        } else {
+        if (user.getCredentials().getAccountType().equals("standard")){
             if (user.getTokensCount() > 3) {
-            ok = true;
+                ok = true;
                 user.setTokensCount(user.getTokensCount() - 2);
             }
+        } else {
+            if (user.getNumFreePremiumMovies() > 0) {
+                ok = true;
+                user.setNumFreePremiumMovies(user.getNumFreePremiumMovies() - 1);
+            } else {
+                if (user.getTokensCount() > 3) {
+                    ok = true;
+                    user.setTokensCount(user.getTokensCount() - 2);
+                }
+            }
         }
+
         if (ok) {
             if (user.getPurchasedMovies() == null) {
                 user.setPurchasedMovies(new ArrayList<>());
@@ -57,6 +69,9 @@ public class SeeDetails {
         return false;
     }
     public boolean watch(Movie movie, User user) {
+        if (user.getPurchasedMovies() == null) {
+            return false;
+        }
         for (Movie purchase : user.getPurchasedMovies()) {
             if (purchase.equals(movie)) {
                 if (user.getWatchedMovies() == null) {
@@ -69,6 +84,9 @@ public class SeeDetails {
         return false;
     }
     public boolean like(Movie movie, User user) {
+        if (user.getWatchedMovies() == null) {
+            return false;
+        }
         for (Movie purchase : user.getWatchedMovies()) {
             if (purchase.equals(movie)) {
                 if (user.getLikedMovies() == null) {
@@ -82,6 +100,9 @@ public class SeeDetails {
         return false;
     }
     public boolean rate(Movie movie, User user, Action action) {
+        if (user.getWatchedMovies() == null) {
+            return false;
+        }
         for (Movie watch : user.getWatchedMovies()) {
             if (watch.equals(movie)) {
                 if (user.getRatedMovies() == null) {
@@ -92,7 +113,7 @@ public class SeeDetails {
                 }
                 movie.setRatingSum(movie.getRatingSum() + action.getRate());
                 movie.setNumRatings(movie.getNumRatings() + 1);
-                movie.setRating((int) movie.getRatingSum()/movie.getNumRatings());
+                movie.setRating(movie.getRatingSum()/movie.getNumRatings());
                 user.getRatedMovies().add(movie);
                 return true;
             }

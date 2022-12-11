@@ -7,6 +7,7 @@ import input.Input;
 import input.Movie;
 import input.User;
 import login_register.Info;
+import login_register.PageDetails;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,18 +30,46 @@ public class MoviePage {
         }
         new Info(inputData, output, user, userMovie);
     }
+    private ArrayList<Movie> contains(Action action, ArrayList<Movie> userMovie) {
+            ArrayList<Movie> newUserMovie = new ArrayList<>();
+            for (Movie movie : userMovie) {
+                boolean containsActors = true;
+                boolean containsGenres = true;
+                if (action.getFilters().getContains().getActors() != null) {
+                    containsActors = false;
+                    for (String actor : action.getFilters().getContains().getActors()) {
+                        if (movie.getActors().contains(actor)) {
+                            containsActors = true;
+                            break;
+                        }
+                    }
+                }
+                if (action.getFilters().getContains().getGenre() != null) {
+                    containsGenres = false;
+                    for (String genre : action.getFilters().getContains().getGenre()) {
+                        if (movie.getGenres().contains(genre)) {
+                            containsGenres = true;
+                            break;
+                        }
+                    }
+                }
+                if (containsActors && containsGenres) {
+                    newUserMovie.add(movie);
+                }
+            }
+        return newUserMovie;
+    }
 
-
-    public void filter(Input inputData, Action action, User user,
-                        ArrayNode output, String page) {
-        if (!page.equals("movies")) {
+    public void filter(Input inputData, Action action,
+                       ArrayNode output, PageDetails details) {
+        if (!details.getPage().equals("movies")) {
             new Info(inputData, output, null, null);
             return;
         }
-        if (user == null) {
+        if (details.getUser() == null) {
             return;
         }
-        ArrayList<Movie> userMovie = userMovies(inputData, user);
+        ArrayList<Movie> userMovie = userMovies(inputData, details.getUser());
         if (action.getFilters().getSort() != null) {
             userMovie.sort((o1, o2) -> {
 
@@ -61,7 +90,13 @@ public class MoviePage {
                 }
             });
         }
-        new Info(inputData, output, user, userMovie);
+        if (action.getFilters().getContains() != null) {
+            details.setMovieList(contains(action, userMovie));
+            new Info(inputData, output, details.getUser(), details.getMovieList());
+        } else {
+            details.setMovieList(userMovie);
+            new Info(inputData, output, details.getUser(), details.getMovieList());
+        }
     }
     public ArrayList<Movie> userMovies(Input inputData, User user) {
         ArrayList<Movie> userMovie = new ArrayList<>();

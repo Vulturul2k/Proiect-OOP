@@ -1,25 +1,25 @@
 package login_register;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import input.*;
-import movie.MoviePage;
-import movie.SeeDetails;
-import movie.Upgrades;
+        import com.fasterxml.jackson.databind.node.ArrayNode;
+        import input.Action;
+        import input.Input;
+        import input.Movie;
+        import movie.MoviePage;
+        import movie.SeeDetails;
+        import movie.Upgrades;
 
-import java.util.ArrayList;
-import java.util.Objects;
+        import java.util.ArrayList;
 
 
-public class Login_register {
+public class PageActions {
 
-    private final static Login_register log = new Login_register();
+    private final static PageActions log = new PageActions();
 
-    public static Login_register getLog() {
+    public static PageActions getLog() {
         return log;
     }
 
-    private Login_register() {
+    private PageActions() {
 
     }
     private String changePage(Input inputData, ArrayNode output,
@@ -78,7 +78,7 @@ public class Login_register {
             new MoviePage().search(inputData, action, details.getUser(), output, details.getPage());
         }
         if (action.getFeature().equals("filter")) {
-            new MoviePage().filter(inputData, action, details.getUser(), output, details.getPage());
+            new MoviePage().filter(inputData, action, output, details);
         }
         if (action.getFeature().equals("buy tokens")) {
             if (details.getPage().equals("upgrades")) {
@@ -156,6 +156,9 @@ public class Login_register {
                 details.setPage(changePage(inputData, output, action, details));
                 if (details.getPage().equals(savePage) && !savePage.equals(action.getPage())) {
                     new Info(inputData, output, null, null);
+                }
+                if (!details.getPage().equals("movies") && details.getMovieList() != null) {
+                    details.setMovieList(null);
                 }
                 if (details.getPage().equals("Homepage neautentificat")) {
                     details.setUser(null);

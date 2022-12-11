@@ -3,10 +3,21 @@ package login_register;
 import input.Movie;
 import input.User;
 
+import java.util.ArrayList;
+
 public class PageDetails {
     String page;
     User user;
     Movie movie;
+    ArrayList<Movie> movieList;
+
+    public ArrayList<Movie> getMovieList() {
+        return movieList;
+    }
+
+    public void setMovieList(ArrayList<Movie> movieList) {
+        this.movieList = movieList;
+    }
 
     public String getPage() {
         return page;
