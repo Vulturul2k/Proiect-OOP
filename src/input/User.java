@@ -1,5 +1,7 @@
 package input;
 
+import page.Actions.Constants;
+
 import java.util.ArrayList;
 
 public final class User {
@@ -7,7 +9,7 @@ public final class User {
     private Credentials credentials;
 
     private int tokensCount;
-    private int numFreePremiumMovies = 15;
+    private int numFreePremiumMovies = Constants.NUMBER_OF_FREE_MOVIES;
     private ArrayList<Movie> purchasedMovies;
     private ArrayList<Movie> watchedMovies;
     private ArrayList<Movie> likedMovies;

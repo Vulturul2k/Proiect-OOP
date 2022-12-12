@@ -1,6 +1,5 @@
 package input;
 
-import java.util.ArrayList;
 
 public final class Credentials {
     private String name;

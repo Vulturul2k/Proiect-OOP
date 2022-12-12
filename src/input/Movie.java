@@ -18,7 +18,7 @@ public final class Movie {
         return ratingSum;
     }
 
-    public void setRatingSum(double ratingSum) {
+    public void setRatingSum(final double ratingSum) {
         this.ratingSum = ratingSum;
     }
 

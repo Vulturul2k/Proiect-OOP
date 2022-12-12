@@ -1,29 +1,27 @@
-package login_register;
+package page.Actions;
 
         import com.fasterxml.jackson.databind.node.ArrayNode;
         import input.Action;
         import input.Input;
         import input.Movie;
-        import movie.MoviePage;
-        import movie.SeeDetails;
-        import movie.Upgrades;
-
+        import pages.Login;
+        import pages.Register;
+        import pages.MoviePage;
+        import pages.SeeDetails;
+        import pages.Upgrades;
         import java.util.ArrayList;
 
 
-public class PageActions {
-
-    private final static PageActions log = new PageActions();
-
-    public static PageActions getLog() {
-        return log;
-    }
-
+public final class PageActions {
+    private static PageActions instance = new PageActions();
     private PageActions() {
-
     }
-    private String changePage(Input inputData, ArrayNode output,
-                              Action action, PageDetails details) {
+    public static PageActions getInstance() {
+        return instance;
+    }
+
+    private String changePage(final Input inputData, final ArrayNode output, final Action action,
+                              final PageDetails details, final SeeDetails seeDetails) {
         if (action.getPage().equals("login") || action.getPage().equals("register")) {
             Login login = new Login();
             if (login.changePage(details.getPage(), action.getPage())) {
@@ -31,19 +29,21 @@ public class PageActions {
             }
         }
         if (action.getPage().equals("logout")) {
-            if (details.getPage().equals("logged")  || details.getPage().equals("see details") || details.getPage().equals("movies")) {
+            if (details.getPage().equals("logged")  || details.getPage().equals("see details")
+                    || details.getPage().equals("movies")) {
                 return "Homepage neautentificat";
             }
         }
         if (action.getPage().equals("movies")) {
-            boolean ok = new MoviePage().moviePage(details.getPage(), inputData, action, details.getUser(), output);
+            boolean ok = MoviePage.getInstance().moviePage(details.getPage(),
+                    inputData, details.getUser(), output);
             if (ok) {
                 return "movies";
             }
         }
         if (action.getPage().equals("see details")) {
             if (details.getPage().equals("movies")) {
-                return new SeeDetails().seeDetails(inputData, action,
+                return seeDetails.seeDetails(inputData, action,
                         output, details);
             }
         }
@@ -52,110 +52,102 @@ public class PageActions {
         }
         return details.getPage();
     }
-    private void onPage(Input inputData, ArrayNode output,
-                        Action action, PageDetails details) {
+    private boolean onPage(final Input inputData, final ArrayNode output, final Action action,
+                           final PageDetails details, final SeeDetails seeDetails) {
         if (action.getFeature().equals("login") || action.getFeature().equals("register")) {
             if (details.getPage().equals("login") || details.getPage().equals("register")) {
                 if (action.getFeature().equals("login")) {
                     Login login = new Login();
-                    details.setUser(login.login(details.getPage(), inputData, action));
+                    details.setUser(login.login(inputData, action));
                 }
                 if (action.getFeature().equals("register")) {
                     Register register = new Register();
-                    details.setUser(register.register(details.getPage(), inputData, action));
+                    details.setUser(register.register(inputData, action));
                 }
                 if (details.getUser() != null) {
                     details.setPage("logged");
                 } else {
                     details.setPage("Homepage neautentificat");
                 }
-                new Info(inputData, output, details.getUser(), null);
-            } else {
-                new Info(inputData, output, null, null);
+                new Info(output, details.getUser(), null);
+                return true;
             }
         }
         if (action.getFeature().equals("search")) {
-            new MoviePage().search(inputData, action, details.getUser(), output, details.getPage());
+            MoviePage.getInstance().search(inputData, action,
+                    details.getUser(), output, details.getPage());
+            return true;
         }
         if (action.getFeature().equals("filter")) {
-            new MoviePage().filter(inputData, action, output, details);
+            MoviePage.getInstance().filter(inputData, action, output, details);
+            return true;
         }
         if (action.getFeature().equals("buy tokens")) {
             if (details.getPage().equals("upgrades")) {
-                if (!new Upgrades().buyTokens(inputData, action, details.getUser())) {
-                    new Info(inputData, output, null, null);
+                if (new Upgrades().buyTokens(action, details.getUser())) {
+                    return true;
                 }
             }
         }
         if (action.getFeature().equals("buy premium account")) {
             if (details.getPage().equals("upgrades")) {
-                if (!new Upgrades().buyPremium(details.getUser())) {
-                    new Info(inputData, output, null, null);
+                if (new Upgrades().buyPremium(details.getUser())) {
+                    return true;
                 }
             }
         }
         if (action.getFeature().equals("purchase")) {
-            if (details.getPage().equals("see details") && details.getPage().equals("see details")) {
-                if (!new SeeDetails().purchase(details.getMovie(), details.getUser())) {
-                    new Info(inputData, output, null, null);
-                } else {
+            if (details.getPage().equals("see details")) {
+                if (seeDetails.purchase(details.getMovie(), details.getUser())) {
                     ArrayList<Movie> listMovie = new ArrayList<>();
                     listMovie.add(details.getMovie());
-                    new Info(inputData, output, details.getUser(), listMovie);
+                    new Info(output, details.getUser(), listMovie);
+                    return true;
                 }
-            } else {
-                new Info(inputData, output, null, null);
             }
         }
         if (action.getFeature().equals("watch")) {
-            if (details.getPage().equals("see details") && details.getPage().equals("see details")) {
-                if (!new SeeDetails().watch(details.getMovie(), details.getUser())) {
-                    new Info(inputData, output, null, null);
-                } else {
+            if (details.getPage().equals("see details")) {
+                if (seeDetails.watch(details.getMovie(), details.getUser())) {
                     ArrayList<Movie> listMovie = new ArrayList<>();
                     listMovie.add(details.getMovie());
-                    new Info(inputData, output, details.getUser(), listMovie);
+                    new Info(output, details.getUser(), listMovie);
+                    return true;
                 }
-            } else {
-                new Info(inputData, output, null, null);
             }
         }
         if (action.getFeature().equals("like")) {
-            if (details.getPage().equals("see details") && details.getPage().equals("see details")) {
-                if (!new SeeDetails().like(details.getMovie(), details.getUser())) {
-                    new Info(inputData, output, null, null);
-                } else {
+            if (details.getPage().equals("see details")) {
+                if (seeDetails.like(details.getMovie(), details.getUser())) {
                     ArrayList<Movie> listMovie = new ArrayList<>();
                     listMovie.add(details.getMovie());
-                    new Info(inputData, output, details.getUser(), listMovie);
+                    new Info(output, details.getUser(), listMovie);
+                    return true;
                 }
-            } else {
-                new Info(inputData, output, null, null);
             }
         }
         if (action.getFeature().equals("rate")) {
-            if (details.getPage().equals("see details") && details.getPage().equals("see details")) {
-                if (!new SeeDetails().rate(details.getMovie(), details.getUser(), action)) {
-                    new Info(inputData, output, null, null);
-                } else {
+            if (details.getPage().equals("see details")) {
+                if (seeDetails.rate(details.getMovie(), details.getUser(), action)) {
                     ArrayList<Movie> listMovie = new ArrayList<>();
                     listMovie.add(details.getMovie());
-                    new Info(inputData, output, details.getUser(), listMovie);
+                    new Info(output, details.getUser(), listMovie);
+                    return true;
                 }
-            }  else {
-                new Info(inputData, output, null, null);
             }
         }
+        return false;
     }
-    public void action(Input inputData, ArrayNode output) {
-        PageDetails details = new PageDetails();
+    public void action(final Input inputData, final ArrayNode output) {
+        SeeDetails seeDetails = SeeDetails.getINSTANCE();
+        PageDetails details = PageDetails.getInsstance();
         details.setPage("Homepage neautentificat");
         for (Action action : inputData.getActions()) {
             if (action.getType().equals("change page")) {
                 String savePage = details.getPage();
-                details.setPage(changePage(inputData, output, action, details));
+                details.setPage(changePage(inputData, output, action, details, seeDetails));
                 if (details.getPage().equals(savePage) && !savePage.equals(action.getPage())) {
-                    new Info(inputData, output, null, null);
+                    new Info(output, null, null);
                 }
                 if (!details.getPage().equals("movies") && details.getMovieList() != null) {
                     details.setMovieList(null);
@@ -165,8 +157,10 @@ public class PageActions {
                 }
             }
             if (action.getType().equals("on page")) {
-                onPage(inputData, output,
-                        action, details);
+                if (!onPage(inputData, output,
+                        action, details, seeDetails)) {
+                    new Info(output, null, null);
+                }
             }
         }
     }

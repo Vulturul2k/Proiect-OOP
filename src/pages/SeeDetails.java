@@ -1,23 +1,32 @@
-package movie;
+package pages;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import input.Action;
 import input.Input;
 import input.Movie;
 import input.User;
-import login_register.Info;
-import login_register.PageDetails;
-
+import page.Actions.Constants;
+import page.Actions.Info;
+import page.Actions.PageDetails;
 import java.util.ArrayList;
 
-public class SeeDetails {
-    public String seeDetails(Input inputData, Action action,
-                             ArrayNode output, PageDetails details) {
-//        if (user == null) {
-//            return;
-//        }
+public final class SeeDetails {
+    private static SeeDetails instance = null;
+    private SeeDetails() {
+    }
+
+    public static SeeDetails getINSTANCE() {
+        if (instance == null) {
+            instance = new SeeDetails();
+        }
+        return instance;
+    }
+
+    public String seeDetails(final Input inputData, final Action action,
+                             final ArrayNode output, final PageDetails details) {
         if (details.getMovieList() == null) {
-            ArrayList<Movie> movieList = new MoviePage().userMovies(inputData, details.getUser());
+            ArrayList<Movie> movieList = MoviePage.getInstance()
+                    .userMovies(inputData, details.getUser());
             details.setMovieList(movieList);
         }
         ArrayList<Movie> userMovies = new ArrayList<>();
@@ -25,13 +34,13 @@ public class SeeDetails {
         if (movie != null) {
             details.setMovieList(null);
             userMovies.add(movie);
-            new Info(inputData, output, details.getUser(), userMovies);
+            new Info(output, details.getUser(), userMovies);
             details.setMovie(movie);
             return "see details";
         }
         return details.getPage();
     }
-    public Movie findMovie(ArrayList<Movie> movieList, Action action) {
+    public Movie findMovie(final ArrayList<Movie> movieList, final Action action) {
         for (Movie movie : movieList) {
             if (movie.getName().equals(action.getMovie())) {
                 return movie;
@@ -39,21 +48,21 @@ public class SeeDetails {
         }
         return null;
     }
-    public boolean purchase(Movie movie, User user) {
+    public boolean purchase(final Movie movie, final User user) {
         boolean ok = false;
-        if (user.getCredentials().getAccountType().equals("standard")){
-            if (user.getTokensCount() > 3) {
+        if (user.getCredentials().getAccountType().equals("standard")) {
+            if (user.getTokensCount() >= Constants.PRICE_OF_A_MOVIE) {
                 ok = true;
-                user.setTokensCount(user.getTokensCount() - 2);
+                user.setTokensCount(user.getTokensCount() - Constants.PRICE_OF_A_MOVIE);
             }
         } else {
-            if (user.getNumFreePremiumMovies() > 0) {
+            if (user.getNumFreePremiumMovies() > Constants.EMPTY) {
                 ok = true;
-                user.setNumFreePremiumMovies(user.getNumFreePremiumMovies() - 1);
+                user.setNumFreePremiumMovies(user.getNumFreePremiumMovies() - Constants.INCREASE);
             } else {
-                if (user.getTokensCount() > 3) {
+                if (user.getTokensCount() >= Constants.PRICE_OF_A_MOVIE) {
                     ok = true;
-                    user.setTokensCount(user.getTokensCount() - 2);
+                    user.setTokensCount(user.getTokensCount() - Constants.PRICE_OF_A_MOVIE);
                 }
             }
         }
@@ -68,7 +77,7 @@ public class SeeDetails {
         }
         return false;
     }
-    public boolean watch(Movie movie, User user) {
+    public boolean watch(final Movie movie, final User user) {
         if (user.getPurchasedMovies() == null) {
             return false;
         }
@@ -83,7 +92,7 @@ public class SeeDetails {
         }
         return false;
     }
-    public boolean like(Movie movie, User user) {
+    public boolean like(final Movie movie, final User user) {
         if (user.getWatchedMovies() == null) {
             return false;
         }
@@ -92,14 +101,14 @@ public class SeeDetails {
                 if (user.getLikedMovies() == null) {
                     user.setLikedMovies(new ArrayList<>());
                 }
-                movie.setNumLikes(movie.getNumLikes() + 1);
+                movie.setNumLikes(movie.getNumLikes() + Constants.INCREASE);
                 user.getLikedMovies().add(movie);
                 return true;
             }
         }
         return false;
     }
-    public boolean rate(Movie movie, User user, Action action) {
+    public boolean rate(final Movie movie, final User user, final Action action) {
         if (user.getWatchedMovies() == null) {
             return false;
         }
@@ -108,12 +117,12 @@ public class SeeDetails {
                 if (user.getRatedMovies() == null) {
                     user.setRatedMovies(new ArrayList<>());
                 }
-                if (action.getRate() > 5) {
+                if (action.getRate() > Constants.MAX_RATE) {
                     return false;
                 }
                 movie.setRatingSum(movie.getRatingSum() + action.getRate());
-                movie.setNumRatings(movie.getNumRatings() + 1);
-                movie.setRating(movie.getRatingSum()/movie.getNumRatings());
+                movie.setNumRatings(movie.getNumRatings() + Constants.INCREASE);
+                movie.setRating(movie.getRatingSum() / movie.getNumRatings());
                 user.getRatedMovies().add(movie);
                 return true;
             }

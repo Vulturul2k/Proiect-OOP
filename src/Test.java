@@ -112,7 +112,7 @@ public final class Test {
      */
     public static void main(final String[] argv) {
         runTests();
-        //preTestCleanUp();
+        preTestCleanUp();
         System.exit(0);
     }
 
@@ -136,7 +136,7 @@ public final class Test {
         for (final File testFile : Objects.requireNonNull(TEST_INPUTS_FILE.listFiles())) {
             String testFileName = testFile.getName();
 
-            //preTestCleanUp();
+            preTestCleanUp();
 
             final String[] testArgv = createTestArgv(testFile);
             final Future<Object> future = createTimerTask(testArgv);
