@@ -5,15 +5,41 @@ import input.Credentials;
 import input.Input;
 import input.User;
 
-public class Register {
+public final class Register extends Login {
+    private static Register instance = null;
+    private Register() {
+        super();
+    }
 
-
-    public User register(final Input inputData, final Action action) {
-            if (new Login().login(inputData, action) != null) {
+    /**
+     * this is a getter for instance. That create a new instance if it is null
+     * @return the instance
+     */
+    public static Register getInstance() {
+        if (instance == null) {
+            instance = new Register();
+        }
+        return instance;
+    }
+    /**
+     * This method register a user who isn't in the database
+     * @param inputData database with users
+     * @param action give the user who want to log in
+     * @return the user who was added in database
+     */
+    public User login(final Input inputData, final Action action) {
+            if (super.login(inputData, action) != null) {
                 return null;
             }
             return createUser(inputData, action);
     }
+
+    /**
+     * This method create a new user
+     * @param inputData database
+     * @param action give the user which will be created
+     * @return the user
+     */
     public User createUser(final Input inputData, final Action action) {
         Credentials newUser = new Credentials();
         newUser.setName(action.getCredentials().getName());

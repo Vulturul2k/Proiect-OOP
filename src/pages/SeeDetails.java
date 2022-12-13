@@ -1,13 +1,12 @@
 package pages;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import input.Action;
 import input.Input;
 import input.Movie;
 import input.User;
 import page.Actions.Constants;
-import page.Actions.Info;
 import page.Actions.PageDetails;
+
 import java.util.ArrayList;
 
 public final class SeeDetails {
@@ -15,6 +14,10 @@ public final class SeeDetails {
     private SeeDetails() {
     }
 
+    /**
+     * This is a getter
+     * @return the instance
+     */
     public static SeeDetails getINSTANCE() {
         if (instance == null) {
             instance = new SeeDetails();
@@ -22,8 +25,15 @@ public final class SeeDetails {
         return instance;
     }
 
-    public String seeDetails(final Input inputData, final Action action,
-                             final ArrayNode output, final PageDetails details) {
+    /**
+     * This method takes us to page "see details" where we can see details about a movie
+     * @param inputData give us all the movies
+     * @param action give us the movie
+     * @param details give info about user and page
+     * @return if you could go to this page
+     */
+    public boolean seeDetails(final Input inputData, final Action action,
+                              final PageDetails details) {
         if (details.getMovieList() == null) {
             ArrayList<Movie> movieList = MoviePage.getInstance()
                     .userMovies(inputData, details.getUser());
@@ -32,14 +42,20 @@ public final class SeeDetails {
         ArrayList<Movie> userMovies = new ArrayList<>();
         Movie movie = findMovie(details.getMovieList(), action);
         if (movie != null) {
-            details.setMovieList(null);
             userMovies.add(movie);
-            new Info(output, details.getUser(), userMovies);
+            details.setMovieList(userMovies);
             details.setMovie(movie);
-            return "see details";
+            return true;
         }
-        return details.getPage();
+        return false;
     }
+
+    /**
+     * Find a movie from name
+     * @param movieList all the movies
+     * @param action give the movie`s name
+     * @return the movie
+     */
     public Movie findMovie(final ArrayList<Movie> movieList, final Action action) {
         for (Movie movie : movieList) {
             if (movie.getName().equals(action.getMovie())) {
@@ -48,6 +64,13 @@ public final class SeeDetails {
         }
         return null;
     }
+
+    /**
+     * This method try to buy a movie
+     * @param movie the movie to be bought
+     * @param user the user that will buy
+     * @return if the movie can be bought
+     */
     public boolean purchase(final Movie movie, final User user) {
         boolean ok = false;
         if (user.getCredentials().getAccountType().equals("standard")) {
@@ -77,6 +100,13 @@ public final class SeeDetails {
         }
         return false;
     }
+
+    /**
+     * This method help user to watch a movie
+     * @param movie the movie that will be watched
+     * @param user the current user
+     * @return if the movie can be watched
+     */
     public boolean watch(final Movie movie, final User user) {
         if (user.getPurchasedMovies() == null) {
             return false;
@@ -92,6 +122,13 @@ public final class SeeDetails {
         }
         return false;
     }
+
+    /**
+     * This method help the user to tell if he is like the movie
+     * @param movie the movie that will give a like
+     * @param user the current user
+     * @return if the user could give a like
+     */
     public boolean like(final Movie movie, final User user) {
         if (user.getWatchedMovies() == null) {
             return false;
@@ -108,6 +145,14 @@ public final class SeeDetails {
         }
         return false;
     }
+
+    /**
+     * This method help the user to tell if he is like the movie
+     * @param movie the movie that will be rated
+     * @param user the current user
+     * @param action give the rate of the user
+     * @return if the user could be rated
+     */
     public boolean rate(final Movie movie, final User user, final Action action) {
         if (user.getWatchedMovies() == null) {
             return false;

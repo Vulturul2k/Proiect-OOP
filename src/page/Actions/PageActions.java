@@ -4,11 +4,15 @@ package page.Actions;
         import input.Action;
         import input.Input;
         import input.Movie;
-        import pages.Login;
-        import pages.Register;
         import pages.MoviePage;
+        import pages.Register;
         import pages.SeeDetails;
         import pages.Upgrades;
+        import pages.Login;
+        import pages.Search;
+        import pages.Filter;
+
+
         import java.util.ArrayList;
 
 
@@ -22,33 +26,41 @@ public final class PageActions {
 
     private String changePage(final Input inputData, final ArrayNode output, final Action action,
                               final PageDetails details, final SeeDetails seeDetails) {
-        if (action.getPage().equals("login") || action.getPage().equals("register")) {
-            Login login = new Login();
-            if (login.changePage(details.getPage(), action.getPage())) {
-                return action.getPage();
+        if (action.getPage().equals("login")) {
+            if (Login.getInstance().changePage(details)) {
+                return "login";
+            }
+        }
+        if (action.getPage().equals("register")) {
+            if (Register.getInstance().changePage(details)) {
+                return "register";
             }
         }
         if (action.getPage().equals("logout")) {
-            if (details.getPage().equals("logged")  || details.getPage().equals("see details")
+            if (details.getPage().equals("Homepage autentificat")
+                    || details.getPage().equals("see details")
                     || details.getPage().equals("movies")) {
                 return "Homepage neautentificat";
             }
         }
         if (action.getPage().equals("movies")) {
-            boolean ok = MoviePage.getInstance().moviePage(details.getPage(),
-                    inputData, details.getUser(), output);
-            if (ok) {
+            if (MoviePage.getInstance().moviePage(inputData, details)) {
+                new Info(output, details.getUser(), details.getMovieList());
                 return "movies";
             }
         }
         if (action.getPage().equals("see details")) {
             if (details.getPage().equals("movies")) {
-                return seeDetails.seeDetails(inputData, action,
-                        output, details);
+                if (seeDetails.seeDetails(inputData, action, details)) {
+                    new Info(output, details.getUser(), details.getMovieList());
+                    return "see details";
+                }
             }
         }
         if (action.getPage().equals("upgrades")) {
-            return new Upgrades().changePage(details.getPage());
+            if (Upgrades.getInstance().changePage(details)) {
+                return "upgrades";
+            }
         }
         return details.getPage();
     }
@@ -57,15 +69,13 @@ public final class PageActions {
         if (action.getFeature().equals("login") || action.getFeature().equals("register")) {
             if (details.getPage().equals("login") || details.getPage().equals("register")) {
                 if (action.getFeature().equals("login")) {
-                    Login login = new Login();
-                    details.setUser(login.login(inputData, action));
+                    details.setUser(Login.getInstance().login(inputData, action));
                 }
                 if (action.getFeature().equals("register")) {
-                    Register register = new Register();
-                    details.setUser(register.register(inputData, action));
+                    details.setUser(Register.getInstance().login(inputData, action));
                 }
                 if (details.getUser() != null) {
-                    details.setPage("logged");
+                    details.setPage("Homepage autentificat");
                 } else {
                     details.setPage("Homepage neautentificat");
                 }
@@ -74,24 +84,23 @@ public final class PageActions {
             }
         }
         if (action.getFeature().equals("search")) {
-            MoviePage.getInstance().search(inputData, action,
-                    details.getUser(), output, details.getPage());
+            Search.getInstance().action(inputData, action, output, details);
             return true;
         }
         if (action.getFeature().equals("filter")) {
-            MoviePage.getInstance().filter(inputData, action, output, details);
+            Filter.getInstance().action(inputData, action, output, details);
             return true;
         }
         if (action.getFeature().equals("buy tokens")) {
             if (details.getPage().equals("upgrades")) {
-                if (new Upgrades().buyTokens(action, details.getUser())) {
+                if (Upgrades.getInstance().buyTokens(action, details.getUser())) {
                     return true;
                 }
             }
         }
         if (action.getFeature().equals("buy premium account")) {
             if (details.getPage().equals("upgrades")) {
-                if (new Upgrades().buyPremium(details.getUser())) {
+                if (Upgrades.getInstance().buyPremium(details.getUser())) {
                     return true;
                 }
             }
@@ -138,6 +147,12 @@ public final class PageActions {
         }
         return false;
     }
+
+    /**
+     * This method iterate through actions
+     * @param inputData this is the input
+     * @param output where will be the output
+     */
     public void action(final Input inputData, final ArrayNode output) {
         SeeDetails seeDetails = SeeDetails.getINSTANCE();
         PageDetails details = PageDetails.getInsstance();

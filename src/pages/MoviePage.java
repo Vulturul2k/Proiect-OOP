@@ -1,11 +1,8 @@
 package pages;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import input.Action;
 import input.Input;
 import input.Movie;
 import input.User;
-import page.Actions.Info;
 import page.Actions.PageDetails;
 
 import java.util.ArrayList;
@@ -15,6 +12,10 @@ public final class MoviePage {
     private MoviePage() {
     }
 
+    /**
+     * this is a getter
+     * @return the instance
+     */
     public static MoviePage getInstance() {
         if (instance == null) {
             instance = new MoviePage();
@@ -22,94 +23,12 @@ public final class MoviePage {
         return instance;
     }
 
-    public void search(final Input inputData, final Action action, final User user,
-                       final ArrayNode output, final String page) {
-        if (!page.equals("movies")) {
-            new Info(output, null, null);
-            return;
-        }
-        ArrayList<Movie> userMovie = new ArrayList<>();
-        for (Movie movie : inputData.getMovies()) {
-            if (movie.getName().startsWith(action.getStartsWith())) {
-                userMovie.add(movie);
-                break;
-            }
-        }
-        new Info(output, user, userMovie);
-    }
-    private ArrayList<Movie> contains(final Action action, final ArrayList<Movie> userMovie) {
-            ArrayList<Movie> newUserMovie = new ArrayList<>();
-            for (Movie movie : userMovie) {
-                boolean containsActors = true;
-                boolean containsGenres = true;
-                if (action.getFilters().getContains().getActors() != null) {
-                    containsActors = false;
-                    for (String actor : action.getFilters().getContains().getActors()) {
-                        if (movie.getActors().contains(actor)) {
-                            containsActors = true;
-                            break;
-                        }
-                    }
-                }
-                if (action.getFilters().getContains().getGenre() != null) {
-                    containsGenres = false;
-                    for (String genre : action.getFilters().getContains().getGenre()) {
-                        if (movie.getGenres().contains(genre)) {
-                            containsGenres = true;
-                            break;
-                        }
-                    }
-                }
-                if (containsActors && containsGenres) {
-                    newUserMovie.add(movie);
-                }
-            }
-        return newUserMovie;
-    }
-    private ArrayList<Movie> sort(final Action action, final ArrayList<Movie> userMovie) {
-        userMovie.sort((o1, o2) -> {
-
-            if (action.getFilters().getSort().getDuration() == null
-                    || o1.getDuration() == o2.getDuration()) {
-                if (action.getFilters().getSort().getRating() == null) {
-                    return 0;
-                }
-                if (action.getFilters().getSort().getRating().equals("decreasing")) {
-                    return (int) ((o2.getRating()) - o1.getRating());
-                } else {
-                    return (int) (o1.getRating() - o2.getRating());
-                }
-            }
-            if (action.getFilters().getSort().getDuration().equals("decreasing")) {
-                return o2.getDuration() - o1.getDuration();
-            } else {
-                return o1.getDuration() - o2.getDuration();
-            }
-        });
-        return userMovie;
-    }
-    public void filter(final Input inputData, final Action action,
-                       final ArrayNode output, final PageDetails details) {
-        if (!details.getPage().equals("movies")) {
-            new Info(output, null, null);
-            return;
-        }
-        if (details.getUser() == null) {
-            return;
-        }
-        ArrayList<Movie> userMovie;
-        if (action.getFilters().getSort() != null) {
-            userMovie = sort(action, userMovies(inputData, details.getUser()));
-        } else {
-            userMovie = userMovies(inputData, details.getUser());
-        }
-        if (action.getFilters().getContains() != null) {
-            details.setMovieList(contains(action, userMovie));
-        } else {
-            details.setMovieList(userMovie);
-        }
-        new Info(output, details.getUser(), details.getMovieList());
-    }
+    /**
+     * it gives us the movies that a user can watch
+     * @param inputData give the list with all the movies
+     * @param user give us the current user
+     * @return the list with movies
+     */
     public ArrayList<Movie> userMovies(final Input inputData, final User user) {
         ArrayList<Movie> userMovie = new ArrayList<>();
         for (Movie movie : inputData.getMovies()) {
@@ -126,17 +45,22 @@ public final class MoviePage {
         }
         return userMovie;
     }
-    public boolean moviePage(final String page, final Input inputData, final User user,
-                             final ArrayNode output) {
-        if (user == null) {
+
+    /**
+     * this method take us to a page where we can see all the movies
+     * @param inputData this is the database with all the movies
+     * @param details give us the current user and the current page
+     * @return if the page could be changed
+     */
+    public boolean moviePage(final Input inputData,
+                             final PageDetails details) {
+        if (!details.getPage().equals("Homepage autentificat")
+                && !details.getPage().equals("see details")
+                && !details.getPage().equals("upgrades") && !details.getPage().equals("movies")) {
             return false;
         }
-        if (!page.equals("logged") && !page.equals("see details")
-                && !page.equals("upgrades") && !page.equals("movies")) {
-            return false;
-        }
-        ArrayList<Movie> userMovie = userMovies(inputData, user);
-        new Info(output, user, userMovie);
+        ArrayList<Movie> userMovie = userMovies(inputData, details.getUser());
+        details.setMovieList(userMovie);
         return true;
     }
 }
