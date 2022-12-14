@@ -2,7 +2,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import input.Input;
-import page.Actions.PageActions;
+import pageactions.PageActions;
 
 import java.io.File;
 import java.io.IOException;

@@ -17,13 +17,18 @@ Florea Radu - 322CD
     * PageDetails - is a class where I store date about the current action
     * PageAction - is the class where I iterate throw the action. This class use Eager singleton, because it is called every time in main 
   * main.Pages - this package is designed to store the main pages of the "website".
+    * MainPages - is an interface created for the main pages from this project 
     * SeeDetails - is a class which let us interact with a certain movie
+    * Purchase - is a class design to purchase a movie
+    * Watch - is class design to watch a movie and verify what movies are already watched
+    * Like - is class design to like a movie
+    * Rate - is class design to rate a movie
     * MoviePage - is the class designed to show the movies which a user could see
     * MoviePageAction - is a interface that have the purpose to be implemented by tha action of the movie page
       * Filter - is a class that filter the movies according to certain criteria 
       * Search - is a class that search movies that start with a input from the user
   * intermediate.Pages - this package is designed to store the intermediate pages that the user need to modify database (login, buy Premium, etc).
-    * IntermediatePages
+    * IntermediatePages - is an interface designed for the intermediate pages
     * Login - is a class designed to log in the User , it implements the interface ChangePage
     * Register - is a class designed to register a new User, it extends class login
     * Upgrades - is a class designed to help a User to buy with balance
@@ -34,9 +39,6 @@ Florea Radu - 322CD
 ### MoviePage
 1. moviePage - this method help the user to go to movie page and to see al the movies from his country
 2. userMovies - is a method that returns all the movies that could be seen in a country
-### SeeDetails
-1. purchase - this method let User buy a movie , using tokens
-2. watch - let him watch a movie he owns
 ### Info
 1. showCredentials - this method display the credentials of a user
 2. showMovie - this method display a movie

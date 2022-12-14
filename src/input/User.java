@@ -1,6 +1,6 @@
 package input;
 
-import page.Actions.Constants;
+import pageactions.Constants;
 
 import java.util.ArrayList;
 
