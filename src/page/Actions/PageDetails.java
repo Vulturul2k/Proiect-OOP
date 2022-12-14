@@ -1,5 +1,6 @@
 package page.Actions;
 
+import input.Action;
 import input.Movie;
 import input.User;
 
@@ -20,6 +21,15 @@ public final class PageDetails {
     private User user;
     private Movie movie;
     private ArrayList<Movie> movieList;
+    private Action action;
+
+    public Action getAction() {
+        return action;
+    }
+
+    public void setAction(final Action action) {
+        this.action = action;
+    }
 
     public ArrayList<Movie> getMovieList() {
         return movieList;

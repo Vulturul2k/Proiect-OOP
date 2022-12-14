@@ -1,4 +1,4 @@
-package pages;
+package main.Pages;
 
 import input.Input;
 import input.Movie;
@@ -7,7 +7,7 @@ import page.Actions.PageDetails;
 
 import java.util.ArrayList;
 
-public final class MoviePage {
+public final class MoviePage implements MainPages {
     private static MoviePage instance = null;
     private MoviePage() {
     }
@@ -52,7 +52,7 @@ public final class MoviePage {
      * @param details give us the current user and the current page
      * @return if the page could be changed
      */
-    public boolean moviePage(final Input inputData,
+    public boolean nextPage(final Input inputData,
                              final PageDetails details) {
         if (!details.getPage().equals("Homepage autentificat")
                 && !details.getPage().equals("see details")

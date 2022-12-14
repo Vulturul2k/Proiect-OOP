@@ -1,11 +1,10 @@
-package pages;
+package intermediat.Pages;
 
-import input.Action;
 import input.Input;
 import input.User;
 import page.Actions.PageDetails;
 
-public class Login implements ChangePage {
+public class Login implements IntermediatePages {
     private static Login instance = null;
     protected Login() {
     }
@@ -33,14 +32,15 @@ public class Login implements ChangePage {
     /**
      * This method try to log in a user
      * @param inputData database with users
-     * @param action give the user who want to log in
+     * @param details give the user who want to log in
      * @return the user if it is logged, else null
      */
-    public User login(final Input inputData, final Action action) {
+    public User login(final Input inputData, final PageDetails details) {
         for (User person: inputData.getUsers()) {
-            if (person.getCredentials().getName().equals(action.getCredentials().getName())) {
+            if (person.getCredentials().getName().equals(details.getAction()
+                    .getCredentials().getName())) {
                 if (person.getCredentials().getPassword()
-                        .equals(action.getCredentials().getPassword())) {
+                        .equals(details.getAction().getCredentials().getPassword())) {
                    return person;
                 }
                 return null;

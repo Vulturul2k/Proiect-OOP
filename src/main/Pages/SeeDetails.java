@@ -1,4 +1,4 @@
-package pages;
+package main.Pages;
 
 import input.Action;
 import input.Input;
@@ -9,7 +9,7 @@ import page.Actions.PageDetails;
 
 import java.util.ArrayList;
 
-public final class SeeDetails {
+public final class SeeDetails implements MainPages {
     private static SeeDetails instance = null;
     private SeeDetails() {
     }
@@ -28,11 +28,10 @@ public final class SeeDetails {
     /**
      * This method takes us to page "see details" where we can see details about a movie
      * @param inputData give us all the movies
-     * @param action give us the movie
      * @param details give info about user and page
      * @return if you could go to this page
      */
-    public boolean seeDetails(final Input inputData, final Action action,
+    public boolean nextPage(final Input inputData,
                               final PageDetails details) {
         if (details.getMovieList() == null) {
             ArrayList<Movie> movieList = MoviePage.getInstance()
@@ -40,7 +39,7 @@ public final class SeeDetails {
             details.setMovieList(movieList);
         }
         ArrayList<Movie> userMovies = new ArrayList<>();
-        Movie movie = findMovie(details.getMovieList(), action);
+        Movie movie = findMovie(details.getMovieList(), details.getAction());
         if (movie != null) {
             userMovies.add(movie);
             details.setMovieList(userMovies);

@@ -1,4 +1,4 @@
-package pages;
+package main.Pages;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import input.Action;

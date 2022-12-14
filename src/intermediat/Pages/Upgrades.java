@@ -1,11 +1,11 @@
-package pages;
+package intermediat.Pages;
 
 import input.Action;
 import input.User;
 import page.Actions.Constants;
 import page.Actions.PageDetails;
 
-public final class Upgrades implements ChangePage {
+public final class Upgrades implements IntermediatePages {
     private static Upgrades instance = null;
 
     private Upgrades() {

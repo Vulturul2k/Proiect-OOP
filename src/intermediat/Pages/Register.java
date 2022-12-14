@@ -1,9 +1,10 @@
-package pages;
+package intermediat.Pages;
 
 import input.Action;
 import input.Credentials;
 import input.Input;
 import input.User;
+import page.Actions.PageDetails;
 
 public final class Register extends Login {
     private static Register instance = null;
@@ -12,8 +13,8 @@ public final class Register extends Login {
     }
 
     /**
-     * this is a getter for instance. That create a new instance if it is null
-     * @return the instance
+     * this is a getter for instanc
+     * @return
      */
     public static Register getInstance() {
         if (instance == null) {
@@ -24,14 +25,14 @@ public final class Register extends Login {
     /**
      * This method register a user who isn't in the database
      * @param inputData database with users
-     * @param action give the user who want to log in
+     * @param details give the user who want to log in
      * @return the user who was added in database
      */
-    public User login(final Input inputData, final Action action) {
-            if (super.login(inputData, action) != null) {
+    public User login(final Input inputData, final PageDetails details) {
+            if (super.login(inputData, details) != null) {
                 return null;
             }
-            return createUser(inputData, action);
+            return createUser(inputData, details.getAction());
     }
 
     /**
