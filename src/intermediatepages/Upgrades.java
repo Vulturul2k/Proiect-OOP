@@ -1,6 +1,5 @@
 package intermediatepages;
 
-import input.Action;
 import input.User;
 import pageactions.Constants;
 import pageactions.PageDetails;
@@ -31,26 +30,29 @@ public final class Upgrades implements IntermediatePages {
         return details.getPage().equals("Homepage autentificat")
                 || details.getPage().equals("see details");
     }
-
-    /**
-     * This method convert balance in tokens
-     * @param action give how many balance to convert
-     * @param user is the curent user
-     * @return if it would be converted
-     */
-    public boolean buyTokens(final Action action, final User user) {
+    private int convert(final User user) {
         int balance = Constants.EMPTY;
         for (int i = Constants.EMPTY; i < user.getCredentials().getBalance().length(); i++) {
             balance = balance * Constants.NEXT_DECIMAL
                     + (user.getCredentials().getBalance().charAt(i) - '0');
         }
-        if (balance >= action.getCount()) {
-            balance -= action.getCount();
-            user.setTokensCount(user.getTokensCount() + action.getCount());
+        return balance;
+    }
+    /**
+     * This method convert balance in tokens
+     * @param details give how many balance to convert and the user
+     * @return if it would be converted
+     */
+    public boolean buyTokens(final PageDetails details) {
+        int balance = convert(details.getUser());
+        if (balance >= details.getAction().getCount()) {
+            balance -= details.getAction().getCount();
+            details.getUser().setTokensCount(details.getUser()
+                    .getTokensCount() + details.getAction().getCount());
         } else {
             return false;
         }
-        user.getCredentials().setBalance(Integer.toString(balance));
+        details.getUser().getCredentials().setBalance(Integer.toString(balance));
         return true;
     }
 

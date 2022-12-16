@@ -5,20 +5,6 @@ import input.User;
 import pageactions.PageDetails;
 
 public class Login implements IntermediatePages {
-    private static Login instance = null;
-    protected Login() {
-    }
-
-    /**
-     * this is a getter
-     * @return instance
-     */
-    public static Login getInstance() {
-        if (instance == null) {
-            instance = new Login();
-        }
-        return instance;
-    }
 
     /**
      * this is a method which takes us out of the home page

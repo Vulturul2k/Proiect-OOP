@@ -6,8 +6,8 @@ import pageactions.PageDetails;
 
 import java.util.ArrayList;
 
-public class Purchase {
-    private boolean pay(final PageDetails details) {
+public abstract class Purchase {
+    private static boolean pay(final PageDetails details) {
         boolean ok = false;
         if (details.getUser().getCredentials().getAccountType().equals("standard")
                 || details.getUser().getNumFreePremiumMovies() == Constants.EMPTY) {
@@ -31,7 +31,7 @@ public class Purchase {
      * @param details the user that will buy
      * @return if the movie can be bought
      */
-    public boolean purchase(final Movie movie, final PageDetails details) {
+    public static boolean purchase(final Movie movie, final PageDetails details) {
 
         if (pay(details)) {
             if (details.getUser().getPurchasedMovies() == null) {
@@ -50,7 +50,7 @@ public class Purchase {
      * @param details give the user
      * @return if is already purchased
      */
-    public boolean verify(final Movie movie, final PageDetails details) {
+    public static boolean verifyPurchase(final Movie movie, final PageDetails details) {
         for (Movie purchase : details.getUser().getPurchasedMovies()) {
             if (purchase.equals(movie)) {
                 if (details.getUser().getWatchedMovies() == null) {

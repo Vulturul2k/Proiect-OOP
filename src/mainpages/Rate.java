@@ -6,21 +6,21 @@ import pageactions.PageDetails;
 
 import java.util.ArrayList;
 
-public class Rate extends Watch {
+public abstract class Rate extends Watch {
     /**
      * This method help the user to tell if he is like the movie
      * @param movie the movie that will be rated
      * @param details give the current user and the rate
      * @return if the user could be rated
      */
-    public boolean rate(final Movie movie, final PageDetails details) {
+    public static boolean rate(final Movie movie, final PageDetails details) {
         if (details.getUser().getWatchedMovies() == null) {
             return false;
         }
         if (details.getAction().getRate() > Constants.MAX_RATE) {
             return false;
         }
-        if (verify(movie, details)) {
+        if (verifyWatch(movie, details)) {
             setRating(movie, details);
             return true;
         }
@@ -32,7 +32,7 @@ public class Rate extends Watch {
      * @param movie the movie
      * @param details give the user
      */
-    private void setRating(final Movie movie, final PageDetails details) {
+    private static void setRating(final Movie movie, final PageDetails details) {
         if (details.getUser().getRatedMovies() == null) {
             details.getUser().setRatedMovies(new ArrayList<>());
         }

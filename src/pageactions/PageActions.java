@@ -32,7 +32,7 @@ public final class PageActions {
     private String changePage(final Input inputData, final ArrayNode output,
                               final PageDetails details, final SeeDetails seeDetails) {
         if (details.getAction().getPage().equals("login")) {
-            if (Login.getInstance().changePage(details)) {
+            if (new Login().changePage(details)) {
                 return "login";
             }
         }
@@ -75,7 +75,7 @@ public final class PageActions {
                 || details.getAction().getFeature().equals("register")) {
             if (details.getPage().equals("login") || details.getPage().equals("register")) {
                 if (details.getAction().getFeature().equals("login")) {
-                    details.setUser(Login.getInstance().login(inputData, details));
+                    details.setUser(new Login().login(inputData, details));
                 }
                 if (details.getAction().getFeature().equals("register")) {
                     details.setUser(Register.getInstance().login(inputData, details));
@@ -99,7 +99,7 @@ public final class PageActions {
         }
         if (details.getAction().getFeature().equals("buy tokens")) {
             if (details.getPage().equals("upgrades")) {
-                if (Upgrades.getInstance().buyTokens(details.getAction(), details.getUser())) {
+                if (Upgrades.getInstance().buyTokens(details)) {
                     return true;
                 }
             }
@@ -113,7 +113,7 @@ public final class PageActions {
         }
         if (details.getAction().getFeature().equals("purchase")) {
             if (details.getPage().equals("see details")) {
-                if (new Purchase().purchase(details.getMovie(), details)) {
+                if (Purchase.purchase(details.getMovie(), details)) {
                     ArrayList<Movie> listMovie = new ArrayList<>();
                     listMovie.add(details.getMovie());
                     new Info(output, details.getUser(), listMovie);
@@ -123,7 +123,7 @@ public final class PageActions {
         }
         if (details.getAction().getFeature().equals("watch")) {
             if (details.getPage().equals("see details")) {
-                if (new Watch().watch(details.getMovie(), details)) {
+                if (Watch.watch(details.getMovie(), details)) {
                     ArrayList<Movie> listMovie = new ArrayList<>();
                     listMovie.add(details.getMovie());
                     new Info(output, details.getUser(), listMovie);
@@ -133,7 +133,7 @@ public final class PageActions {
         }
         if (details.getAction().getFeature().equals("like")) {
             if (details.getPage().equals("see details")) {
-                if (new Like().like(details.getMovie(), details)) {
+                if (Like.like(details.getMovie(), details)) {
                     ArrayList<Movie> listMovie = new ArrayList<>();
                     listMovie.add(details.getMovie());
                     new Info(output, details.getUser(), listMovie);
@@ -143,7 +143,7 @@ public final class PageActions {
         }
         if (details.getAction().getFeature().equals("rate")) {
             if (details.getPage().equals("see details")) {
-                if (new Rate().rate(details.getMovie(), details)) {
+                if (Rate.rate(details.getMovie(), details)) {
                     ArrayList<Movie> listMovie = new ArrayList<>();
                     listMovie.add(details.getMovie());
                     new Info(output, details.getUser(), listMovie);

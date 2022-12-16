@@ -6,18 +6,18 @@ import pageactions.PageDetails;
 
 import java.util.ArrayList;
 
-public class Like extends Watch {
+public abstract class Like extends Watch {
     /**
      * This method help the user to tell if he is like the movie
      * @param movie the movie that will give a like
      * @param details the current user
      * @return if the user could give a like
      */
-    public boolean like(final Movie movie, final PageDetails details) {
+    public static boolean like(final Movie movie, final PageDetails details) {
         if (details.getUser().getWatchedMovies() == null) {
             return false;
         }
-        if (super.verify(movie, details)) {
+        if (verifyWatch(movie, details)) {
             setLike(movie, details);
             return true;
         }
@@ -29,7 +29,7 @@ public class Like extends Watch {
      * @param movie the movie
      * @param details give the user
      */
-    private void setLike(final Movie movie, final PageDetails details) {
+    private static void setLike(final Movie movie, final PageDetails details) {
         if (details.getUser().getLikedMovies() == null) {
             details.getUser().setLikedMovies(new ArrayList<>());
         }
