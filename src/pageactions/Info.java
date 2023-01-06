@@ -12,7 +12,7 @@ public final class Info {
     private static void showMovie(final ArrayNode output, final Movie movie) {
         ObjectNode jsonNode = output.addObject();
         jsonNode.put("name", movie.getName());
-        jsonNode.put("year", movie.getYear());
+        jsonNode.put("year", Integer.toString(movie.getYear()));
         jsonNode.put("duration", movie.getDuration());
         ArrayNode movieGenresNod = jsonNode.putArray("genres");
         if (movie.getGenres() != null) {
@@ -93,6 +93,11 @@ public final class Info {
             if (user.getRatedMovies() != null) {
                 for (Movie movie : user.getRatedMovies()) {
                     showMovie(movieInfoRate, movie);
+                }
+            }
+            ArrayNode notifications = users.putArray("notifications");
+            if (user.getNotifications() != null) {
+                for (String movie : user.getNotifications()) {
                 }
             }
         } else {

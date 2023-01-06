@@ -15,6 +15,16 @@ public final class User {
     private ArrayList<Movie> likedMovies;
     private ArrayList<Movie> ratedMovies;
 
+    public ArrayList<String> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(ArrayList<String> notifications) {
+        this.notifications = notifications;
+    }
+
+    private ArrayList<String> notifications;
+
     public Credentials getCredentials() {
         return credentials;
     }

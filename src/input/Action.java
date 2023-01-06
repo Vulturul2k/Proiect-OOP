@@ -8,6 +8,33 @@ public final class Action {
     private Credentials credentials;
     private String startsWith;
     private Filters filters;
+    private String subscribedGenre;
+    private Movie addedMovie;
+    private String deletedMovie;
+
+    public String getDeletedMovie() {
+        return deletedMovie;
+    }
+
+    public void setDeletedMovie(String deletedMovie) {
+        this.deletedMovie = deletedMovie;
+    }
+
+    public Movie getAddedMovie() {
+        return addedMovie;
+    }
+
+    public void setAddedMovie(Movie addedMovie) {
+        this.addedMovie = addedMovie;
+    }
+
+    public String getSubscribedGenre() {
+        return subscribedGenre;
+    }
+
+    public void setSubscribedGenre(String subscribedGenre) {
+        this.subscribedGenre = subscribedGenre;
+    }
 
     private int count;
 

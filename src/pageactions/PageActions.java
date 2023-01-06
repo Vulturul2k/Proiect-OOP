@@ -1,5 +1,6 @@
 package pageactions;
 
+        import admin.Delete;
         import com.fasterxml.jackson.databind.node.ArrayNode;
         import input.Action;
         import input.Input;
@@ -163,25 +164,51 @@ public final class PageActions {
         SeeDetails seeDetails = SeeDetails.getINSTANCE();
         PageDetails details = PageDetails.getInsstance();
         details.setPage("Homepage neautentificat");
+        ArrayList<String> pages = new ArrayList<>();
         for (Action action : inputData.getActions()) {
             details.setAction(action);
+            String savePage = details.getPage();
             if (action.getType().equals("change page")) {
-                String savePage = details.getPage();
                 details.setPage(changePage(inputData, output, details, seeDetails));
                 if (details.getPage().equals(savePage) && !savePage.equals(action.getPage())) {
                     new Info(output, null, null);
+                } else {
+                    pages.add(details.getPage());
                 }
                 if (!details.getPage().equals("movies") && details.getMovieList() != null) {
                     details.setMovieList(null);
                 }
                 if (details.getPage().equals("Homepage neautentificat")) {
                     details.setUser(null);
+                    pages.clear();
                 }
             }
             if (action.getType().equals("on page")) {
                 if (!onPage(inputData, output,
                         details, seeDetails)) {
                     new Info(output, null, null);
+                }
+            }
+            if (action.getType().equals("database")) {
+                if (action.getFeature().equals("delete")) {
+                    new Delete(action, inputData);
+                }
+            }
+            if (action.getType().equals("back")) {
+                if (details.getPage().equals("Homepage autentificat")) {
+                    new Info(output, null, null);
+                } else {
+                    String backPage = pages.get(pages.size() - 1);
+                    if (backPage.equals("Homepage autentificat")) {
+                        details.setPage("Homepage autentificat");
+                    } else {
+                        String backbackPage = pages.get(pages.size() - 2);
+                        details.getAction().setPage(backPage);
+                        details.setPage(backbackPage);
+                        changePage(inputData, output, details, seeDetails);
+                        pages.remove(pages.get(pages.size() - 1));
+                        pages.remove(pages.get(pages.size() - 2));
+                    }
                 }
             }
         }
