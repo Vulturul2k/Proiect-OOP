@@ -54,8 +54,13 @@ public final class Info {
         } else {
             jsonNode.put("error", (ObjectNode) null);
         }
-
-        ArrayNode out = jsonNode.putArray("currentMoviesList");
+        ArrayNode out = null;
+        if (user != null && user.getMessage() != null
+                && user.getMessage().get(user.getMessage().size() - 1).equals("Recommendation")) {
+            jsonNode.put("currentMoviesList", (ObjectNode) null);
+        } else {
+            out = jsonNode.putArray("currentMoviesList");
+        }
         if (userMovie != null) {
             if (user != null) {
                 for (Movie movie : userMovie) {
@@ -96,8 +101,11 @@ public final class Info {
                 }
             }
             ArrayNode notifications = users.putArray("notifications");
-            if (user.getNotifications() != null) {
-                for (String movie : user.getNotifications()) {
+            if (user.getMessage() != null) {
+                for (int i = 0; i < user.getMovieName().size(); i++) {
+                    ObjectNode notificationNode = notifications.addObject();
+                    notificationNode.put("message", user.getMessage().get(i));
+                    notificationNode.put("movieName", user.getMovieName().get(i));
                 }
             }
         } else {

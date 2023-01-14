@@ -14,16 +14,45 @@ public final class User {
     private ArrayList<Movie> watchedMovies;
     private ArrayList<Movie> likedMovies;
     private ArrayList<Movie> ratedMovies;
+    private ArrayList<String> subscribe;
 
-    public ArrayList<String> getNotifications() {
-        return notifications;
+    public ArrayList<String> getSubscribe() {
+        return subscribe;
     }
 
-    public void setNotifications(ArrayList<String> notifications) {
-        this.notifications = notifications;
+    public void setSubscribe(final ArrayList<String> subscribe) {
+        this.subscribe = subscribe;
     }
 
-    private ArrayList<String> notifications;
+    public ArrayList<Double> getRates() {
+        return rates;
+    }
+
+    public void setRates(final ArrayList<Double> rates) {
+        this.rates = rates;
+    }
+
+    private ArrayList<Double> rates;
+
+
+    private ArrayList<String> message;
+    private ArrayList<String> movieName;
+
+    public ArrayList<String> getMessage() {
+        return message;
+    }
+
+    public void setMessage(final ArrayList<String> message) {
+        this.message = message;
+    }
+
+    public ArrayList<String> getMovieName() {
+        return movieName;
+    }
+
+    public void setMovieName(final ArrayList<String> movieName) {
+        this.movieName = movieName;
+    }
 
     public Credentials getCredentials() {
         return credentials;

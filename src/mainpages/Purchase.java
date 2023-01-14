@@ -32,7 +32,13 @@ public abstract class Purchase {
      * @return if the movie can be bought
      */
     public static boolean purchase(final Movie movie, final PageDetails details) {
-
+        if (details.getUser().getPurchasedMovies() != null) {
+            for (Movie purchased : details.getUser().getPurchasedMovies()) {
+                if (movie.getName().equals(purchased.getName())) {
+                    return false;
+                }
+            }
+        }
         if (pay(details)) {
             if (details.getUser().getPurchasedMovies() == null) {
                 details.getUser().setPurchasedMovies(new ArrayList<>());
@@ -55,6 +61,13 @@ public abstract class Purchase {
             if (purchase.equals(movie)) {
                 if (details.getUser().getWatchedMovies() == null) {
                     details.getUser().setWatchedMovies(new ArrayList<>());
+                }
+                if (details.getUser().getWatchedMovies() != null) {
+                    for (Movie watch : details.getUser().getWatchedMovies()) {
+                        if (movie.getName().equals(watch.getName())) {
+                            return true;
+                        }
+                    }
                 }
                 details.getUser().getWatchedMovies().add(movie);
                 return true;

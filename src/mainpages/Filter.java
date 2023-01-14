@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import input.Action;
 import input.Input;
 import input.Movie;
+import pageactions.Constants;
 import pageactions.Info;
 import pageactions.PageDetails;
 
@@ -76,7 +77,7 @@ public final class Filter implements MoviePageActions {
                     return 0;
                 }
                 if (action.getFilters().getSort().getRating().equals("decreasing")) {
-                    return (int) ((o2.getRating()) - o1.getRating());
+                    return (int) (((o2.getRating()) - o1.getRating()) * Constants.NEXT_DECIMAL);
                 } else {
                     return (int) (o1.getRating() - o2.getRating());
                 }

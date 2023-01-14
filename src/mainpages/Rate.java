@@ -14,6 +14,19 @@ public abstract class Rate extends Watch {
      * @return if the user could be rated
      */
     public static boolean rate(final Movie movie, final PageDetails details) {
+        if (details.getUser().getRatedMovies() != null) {
+            for (Movie rated : details.getUser().getRatedMovies()) {
+                if (movie.getName().equals(rated.getName())) {
+                    movie.setRatingSum(movie.getRatingSum() - details.getUser()
+                            .getRates().get(details.getUser().getRatedMovies().indexOf(movie)));
+                    details.getUser().getRates().set(details.getUser().getRatedMovies()
+                            .indexOf(movie), (double) details.getAction().getRate());
+                    movie.setRatingSum(movie.getRatingSum() + details.getAction().getRate());
+                    movie.setRating(movie.getRatingSum() / movie.getNumRatings());
+                    return true;
+                }
+            }
+        }
         if (details.getUser().getWatchedMovies() == null) {
             return false;
         }
@@ -36,9 +49,13 @@ public abstract class Rate extends Watch {
         if (details.getUser().getRatedMovies() == null) {
             details.getUser().setRatedMovies(new ArrayList<>());
         }
+        if (details.getUser().getRates() == null) {
+            details.getUser().setRates(new ArrayList<>());
+        }
+        details.getUser().getRatedMovies().add(movie);
+        details.getUser().getRates().add((double) details.getAction().getRate());
         movie.setRatingSum(movie.getRatingSum() + details.getAction().getRate());
         movie.setNumRatings(movie.getNumRatings() + Constants.INCREASE);
         movie.setRating(movie.getRatingSum() / movie.getNumRatings());
-        details.getUser().getRatedMovies().add(movie);
     }
 }

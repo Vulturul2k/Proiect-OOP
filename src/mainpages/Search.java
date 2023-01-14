@@ -30,7 +30,6 @@ public final class Search implements MoviePageActions {
         for (Movie movie : inputData.getMovies()) {
             if (movie.getName().startsWith(action.getStartsWith())) {
                 userMovie.add(movie);
-                break;
             }
         }
         return userMovie;

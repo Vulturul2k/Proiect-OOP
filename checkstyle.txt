@@ -1,17 +1,10 @@
 Starting audit...
-[ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\admin\Delete.java:6:8: Unused import - pageactions.PageDetails. [UnusedImports]
-[ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\admin\Delete.java:9:19: Parameter action should be final. [FinalParameters]
-[ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\admin\Delete.java:9:34: Parameter input should be final. [FinalParameters]
-[ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\input\Action.java:19:33: Parameter deletedMovie should be final. [FinalParameters]
-[ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\input\Action.java:27:31: Parameter addedMovie should be final. [FinalParameters]
-[ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\input\Action.java:35:36: Parameter subscribedGenre should be final. [FinalParameters]
-[ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\input\User.java:22:34: Parameter notifications should be final. [FinalParameters]
-[ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\Main.java:1: File does not end with a newline. [NewlineAtEndOfFile]
-[ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\pageactions\Info.java:100:62: Must have at least one statement. [EmptyBlock]
+[ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\admin\Add.java:18:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\mainpages\Subscribe.java:8:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
 [ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\Test.java:1: File does not end with a newline. [NewlineAtEndOfFile]
 [ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\Test.java:9:28: Using the '.*' form of import should be avoided - java.util.concurrent.*. [AvoidStarImport]
 [ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\Test.java:158: Line is longer than 100 characters (found 108). [LineLength]
 [ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\Test.java:206:65: Parameter testFileName should be final. [FinalParameters]
 [ERROR] C:\Users\Radu\Documents\tema 2 OOP\proiect1\Proiect-OOP\.\src\Test.java:222: Line is longer than 100 characters (found 108). [LineLength]
 Audit done.
-Checkstyle ends with 14 errors.
+Checkstyle ends with 7 errors.
