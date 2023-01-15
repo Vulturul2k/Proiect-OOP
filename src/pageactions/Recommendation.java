@@ -8,12 +8,11 @@ import mainpages.MoviePage;
 
 import java.util.ArrayList;
 
-public class Recomandation {
-    Recomandation(final PageDetails details, final Input inputData, final ArrayNode output) {
+public class Recommendation {
+    Recommendation(final PageDetails details, final Input inputData, final ArrayNode output) {
         if (details.getUser().getMessage() == null) {
             details.getUser().setMessage(new ArrayList<>());
             details.getUser().setMovieName(new ArrayList<>());
-            System.out.println("ceva");
         }
         details.getUser().getMessage().add("Recommendation");
         ArrayList<Integer> gensLike = new ArrayList<>();

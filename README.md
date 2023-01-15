@@ -54,5 +54,7 @@ Florea Radu - 322CD
 I implement this feature with the Arraylist pages, where I saved all the pages where the user was. When the user want to previous page, the method change page is called with the previous page after verify if we could do that.
 ## Other mentions
 Classes from the package main.Pages and MoviePage, SeeDetails, Filter and Search use lazy singleton because aren`t call every time but needs only one instance. And PageActions use eager singleton , because we need always just a instance.
-I was a little confused by the change of tests, but I believe that is better that in the final , page field is null when action is the type on page. The project is well done and helped me to increase my oop skill
+Back type was implemented with the design pattern Command 
+I was a little confused by the change of tests, but I believe that is better that in the final , page field is null when action is the type on page. The project is well done and helped me to increase my oop skill.
+
 

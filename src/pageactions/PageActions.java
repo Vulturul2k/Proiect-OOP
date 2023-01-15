@@ -30,8 +30,8 @@ public final class PageActions {
         return instance;
     }
 
-    private String changePage(final Input inputData, final ArrayNode output,
-                              final PageDetails details, final SeeDetails seeDetails,
+    public String changePage(final Input inputData, final ArrayNode output,
+                              final PageDetails details,
                               final boolean back) {
         if (details.getAction().getPage().equals("login")) {
             if (new Login().changePage(details)) {
@@ -58,7 +58,7 @@ public final class PageActions {
         }
         if (details.getAction().getPage().equals("see details")) {
             if (details.getPage().equals("movies")) {
-                if (seeDetails.nextPage(inputData, details) || back) {
+                if (SeeDetails.getINSTANCE().nextPage(inputData, details) || back) {
                     new Info(output, details.getUser(), details.getMovieList());
                     return "see details";
                 }
@@ -171,12 +171,12 @@ public final class PageActions {
         SeeDetails seeDetails = SeeDetails.getINSTANCE();
         PageDetails details = PageDetails.getInsstance();
         details.setPage("Homepage neautentificat");
-        ArrayList<String> pages = new ArrayList<>();
+        Pages pages = new Pages();
         for (Action action : inputData.getActions()) {
             details.setAction(action);
             String savePage = details.getPage();
             if (action.getType().equals("change page")) {
-                details.setPage(changePage(inputData, output, details, seeDetails, false));
+                details.setPage(changePage(inputData, output, details, false));
                 if (details.getPage().equals(savePage) && !savePage.equals(action.getPage())) {
                     new Info(output, null, null);
                 } else {
@@ -184,7 +184,6 @@ public final class PageActions {
                             && !savePage.equals("register")
                             && !savePage.equals("Homepage neautentificat")) {
                         pages.add(savePage);
-                        //System.out.println(pages.get(pages.size()-1));
                     }
                 }
                 if (!details.getPage().equals("movies") && details.getMovieList() != null) {
@@ -212,26 +211,16 @@ public final class PageActions {
                 }
             }
             if (action.getType().equals("back")) {
-//                ObjectNode jsonNode = output.addObject();
-//                jsonNode.put("back", details.getPage());
                 if (details.getPage().equals("Homepage autentificat")) {
                     new Info(output, null, null);
                 } else {
-                    String backPage = pages.get(pages.size() - 1);
-                    if (backPage.equals("Homepage autentificat")) {
-                        details.setPage("Homepage autentificat");
-                    } else {
-                        details.getAction().setPage(pages.get(pages.size() - 1));
-                        details.setPage(changePage(inputData, output,
-                                details, seeDetails, true));
-                        //System.out.println(details.getPage());
-                    }
+                   pages.undo(details, inputData, output);
                 }
             }
         }
         if (details.getUser() != null
                 && details.getUser().getCredentials().getAccountType().equals("premium")) {
-            new Recomandation(details, inputData, output);
+            new Recommendation(details, inputData, output);
         }
     }
 }
